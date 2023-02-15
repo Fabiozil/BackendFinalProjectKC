@@ -1,0 +1,50 @@
+version: 0.2
+
+phases:
+    install:
+        runtime-versions:
+            nodejs: 14.x
+        commands:
+            - echo Build started on `date`
+            - echo "Install Prequisites"
+            - echo $CROSS_ACCOUNT_ROLE
+            - echo $CF_EXECUTION_ROLE
+            - echo $TARGET_ACCOUNT_ID
+            - echo $STAGE
+            - cd $CODEBUILD_SRC_DIR
+            - mkdir ./serverless-package
+            - chmod +x aws-profile-setup.sh
+            - pwd
+            - ls
+            - npm install
+            - npm install -g serverless
+    build:
+        commands:
+            - echo "Start Deploy"
+            - echo Build started on `date`
+            ##################################### Generate serverless package. ###################################
+            - . ./aws-profile-setup.sh
+            - sls package --package serverless-package --stage "V1" --param="targetAccountId=$TARGET_ACCOUNT_ID" --param="cfnRoleArn=$CF_EXECUTION_ROLE"
+            - ls serverless-package
+            #######################################################################################################
+            # Deploy serverless package
+            - sls deploy --package serverless-package --stage "V1" --param="targetAccountId=$TARGET_ACCOUNT_ID" --param="cfnRoleArn=$CF_EXECUTION_ROLE"
+            #######################################################################################################
+            #################### Retrieve API Endpoint and pass it on as a build artifact #######################
+            - endpoint=$(sls info --verbose --stage "V1" --param="targetAccountId=$TARGET_ACCOUNT_ID" --param="cfnRoleArn=$CF_EXECUTION_ROLE" | grep "ServiceEndpoint:")
+            - API_URL=$(echo $endpoint | cut -d' ' -f2)
+            - echo $API_URL
+            - echo $API_URL > api-endpoint.txt
+            - cat api-endpoint.txt
+            - echo Build finished on `date`
+            - pwd
+            - ls
+            - echo "This is working"
+            - echo "End Deploy"
+            #######################################################################################################
+artifacts:
+    files:
+        # Build Artifact containing API Endpoint
+        - api-endpoint.txt
+    discard-paths: no
+    base-directory: $CODEBUILD_SRC_DIR

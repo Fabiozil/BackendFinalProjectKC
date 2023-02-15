@@ -1,0 +1,14 @@
+Resources:
+    ApiBackendKKFirstTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            TableName: api-backend-kk-first-table
+            AttributeDefinitions:
+                - AttributeName: id
+                  AttributeType: S
+            KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+            BillingMode: PAY_PER_REQUEST
+            SSESpecification:
+                SSEEnabled: true

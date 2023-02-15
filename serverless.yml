@@ -1,0 +1,78 @@
+service: api-backend
+
+frameworkVersion: "3"
+
+custom:
+    secrets: ${file(secrets.json)}
+
+plugins:
+    - serverless-plugin-typescript
+    - serverless-plugin-optimize
+    - serverless-offline
+
+package:
+    individually: true
+
+provider:
+    name: aws
+    runtime: nodejs14.x
+    region: us-east-1
+    # vpc:
+    #     securityGroupIds:
+    #         - ${ssm:/secrets/SECURITY_GROUP_ID}
+    #     subnetIds:
+    #         - ${ssm:/secrets/SUBNET_ID}
+    environment:
+    tags:
+        Name: api-backend
+        Description: "Proyecto final KK"
+        Responsible: "Desarrollador Backend Fabio Anaya"
+        ProjectName: "Api Backend"
+        Environment: pdn
+        creationDate: 2022-02-15
+        resourceType: private
+        dataType: private
+    apiGateway:
+        restApiId: i7ujs6geb2
+        restApiRootResourceId: dm9qubf1gj
+    iam:
+        role:
+            statements:
+                - Effect: Allow
+                  Action:
+                      - dynamodb:DescribeTable
+                      - dynamodb:Query
+                      - dynamodb:Scan
+                      - dynamodb:GetItem
+                      - dynamodb:PutItem
+                      - dynamodb:UpdateItem
+                  Resource:
+                      - "Fn::GetAtt": [ApiBackendKKFirstTable, Arn]
+                - Effect: "Allow"
+                  Action:
+                      - lambda:InvokeFunction
+                      - lambda:InvokeAsync
+                  Resource: "*"
+
+functions:
+    main:
+        handler: src/lambda.handler
+        timeout: 29
+        events:
+            - http:
+                  cors: true
+                  method: get
+                  path: /test/ping
+                  #   authorizer:
+                  #       type: TOKEN
+                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+            # - http:
+            #       cors: true
+            #       method: post
+            #       path: /example
+            #       authorizer:
+            #           type: TOKEN
+            #           authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+resources:
+    # DynamoDB
+    - ${file(aws-resources/dynamodb.yml)}
