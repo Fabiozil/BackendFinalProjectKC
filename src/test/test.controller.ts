@@ -10,4 +10,9 @@ export class TestController {
     async getPatient() {
         return await this.testService.ping();
     }
+
+    @Post("ping-2")
+    async getPing2() {
+        return await this.testService.ping2();
+    }
 }

@@ -68,6 +68,13 @@ functions:
                   #   authorizer:
                   #       type: TOKEN
                   #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+            - http:
+                  cors: true
+                  method: post
+                  path: /test/ping-2
+                  #   authorizer:
+                  #       type: TOKEN
+                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
             # - http:
             #       cors: true
             #       method: post
