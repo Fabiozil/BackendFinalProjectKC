@@ -8,8 +8,6 @@ import { NestFactory } from "@nestjs/core";
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { ExpressAdapter } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
-import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
-
 const express = require("express");
 
 // NOTE: If you get ERR_CONTENT_DECODING_FAILED in your browser, this is likely
@@ -35,7 +33,6 @@ async function bootstrapServer(): Promise<Server> {
                 forbidNonWhitelisted: true,
             })
         );
-        nestApp.useGlobalFilters(new HttpExceptionFilter());
         nestApp.enableVersioning({
             type: VersioningType.URI,
         });
