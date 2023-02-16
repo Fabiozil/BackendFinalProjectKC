@@ -12,4 +12,8 @@ export class TestService {
     async ping() {
         return this.responseService.success("Success ping", { response: [] });
     }
+
+    async ping2() {
+        return this.responseService.success("Success ping 2", { response: [] });
+    }
 }
