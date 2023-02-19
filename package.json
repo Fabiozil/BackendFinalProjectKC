@@ -29,6 +29,7 @@
         "@nestjs/swagger": "^5.2.1",
         "@vendia/serverless-express": "^4.8.0",
         "aws-lambda": "^1.0.7",
+        "aws-sdk": "^2.1317.0",
         "aws-sdk-client-mock": "^2.0.0",
         "aws-serverless-express": "^3.4.0",
         "axios": "^0.27.2",
@@ -40,6 +41,7 @@
         "rimraf": "^3.0.2",
         "rxjs": "^7.2.0",
         "swagger-ui-express": "^4.4.0",
+        "uuid": "^9.0.0",
         "xml2js": "^0.4.19"
     },
     "devDependencies": {

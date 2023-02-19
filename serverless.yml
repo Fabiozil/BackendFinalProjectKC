@@ -49,6 +49,7 @@ provider:
                       - dynamodb:PutItem
                       - dynamodb:UpdateItem
                   Resource:
+                      - arn:aws:dynamodb:us-east-1:766512310482:table/api-backend-kk-first-table
                       - "Fn::GetAtt": [ApiBackendKKFirstTable, Arn]
                 - Effect: "Allow"
                   Action:
