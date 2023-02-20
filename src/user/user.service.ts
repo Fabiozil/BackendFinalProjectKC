@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
 import { LoggerHelper } from "../common/helpers/logging";
-import { WriteDatabase } from "../common/model/testModel.model";
 
 @Injectable()
 export class TestService {
@@ -11,7 +10,6 @@ export class TestService {
     ) {}
 
     async ping() {
-        const response = await WriteDatabase();
         return this.responseService.success("Success ping", { response: [] });
     }
 
