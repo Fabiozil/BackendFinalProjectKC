@@ -1,16 +1,26 @@
 import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
-import { LoggerHelper } from "../common/helpers/logging";
+import { WriteDatabaseAuth } from "src/common/model/testModel.model";
+import * as bcrypt from "bcrypt"
+import { v4 } from "uuid";
+
 
 @Injectable()
-export class TestService {
+export class UserService {
     constructor(
         private readonly responseService: ResponseService,
-        private readonly logger: LoggerHelper
+        private readonly dateBase: WriteDatabaseAuth
     ) {}
 
-    async ping() {
-        return this.responseService.success("Success ping", { response: [] });
+    async createUser(data:any) {
+
+        const id = v4()
+        data.set(id)
+
+        const hashPassword = await bcrypt.hash(data.password, 10);
+        data.password = hashPassword;
+
+        return this.dateBase.CreateUser(data);
     }
 
     async ping2() {
