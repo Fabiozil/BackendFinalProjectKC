@@ -1,16 +1,17 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { TestService } from "./user.service";
+import { UserService } from "./user.service";
 import { ResponseService } from "../common/helpers/response.service";
 import { UUIDValidator } from "../common/middleware/uuid-validator";
 import { LoggerHelper } from "../common/helpers/logging";
-import { TestController } from "./user.controller";
+import { USerController } from "./user.controller";
+import { WriteDatabaseAuth } from "../common/model/testModel.module";
 
 @Module({
-    providers: [ResponseService, LoggerHelper, TestService],
-    controllers: [TestController],
+    providers: [ResponseService, LoggerHelper, UserService,WriteDatabaseAuth],
+    controllers: [USerController],
 })
-export class TestModule implements NestModule {
+export class UserModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(UUIDValidator).forRoutes(TestService);
+        consumer.apply(UUIDValidator).forRoutes(USerController);
     }
 }

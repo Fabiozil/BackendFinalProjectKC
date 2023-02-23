@@ -76,13 +76,13 @@ functions:
                   #   authorizer:
                   #       type: TOKEN
                   #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
-            # - http:
-            #       cors: true
-            #       method: post
-            #       path: /example
-            #       authorizer:
-            #           type: TOKEN
-            #           authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+            - http:
+                  cors: true
+                  method: post
+                  path: /user/login
+                #   authorizer:
+                #       type: TOKEN
+                #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
 resources:
     # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}

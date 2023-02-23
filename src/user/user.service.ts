@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
-import { WriteDatabaseAuth } from "src/common/model/testModel.model";
+import { WriteDatabaseAuth } from "../common/model/testModel.module";
+import { CreateUserDto } from "./user.dto"
 import * as bcrypt from "bcrypt"
 import { v4 } from "uuid";
 
@@ -12,10 +13,8 @@ export class UserService {
         private readonly dateBase: WriteDatabaseAuth
     ) {}
 
-    async createUser(data:any) {
-
-        const id = v4()
-        data.set(id)
+    async createUser(data:CreateUserDto) {
+ 
 
         const hashPassword = await bcrypt.hash(data.password, 10);
         data.password = hashPassword;

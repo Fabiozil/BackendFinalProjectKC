@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
 import { LoggerHelper } from "../common/helpers/logging";
-import { WriteDatabase } from "../common/model/testModel.model";
+import { WriteDatabase } from "../common/model/testModel.module";
 
 @Injectable()
 export class TestService {
