@@ -19,4 +19,4 @@ export class USerController {
         return this.userService.createUser(data)
        
     }
-}
+} 

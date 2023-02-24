@@ -20,10 +20,7 @@ export class WriteDatabaseAuth{
 
 
     async CreateUser(data:any) {
-    console.log("🚀 ~ file: testModel.module.ts:23 ~ WriteDatabaseAuth ~ CreateUser ~ data:", data)
-    
-
-        
+          
         const putCommand = new PutItemCommand({
             TableName: "api-backend-kk-first-table",
             Item: {
@@ -36,18 +33,24 @@ export class WriteDatabaseAuth{
         try {
             
             await this.dynamoClient.send(putCommand);
+            return data
           
         } catch (error) {
-            console.log("🚀 ~ file: testModel.module.ts:38 ~ WriteDatabaseAuth ~ CreateUser ~ error:", error)
-            
-            throw new UnauthorizedException('errorrrrrr')
+            throw new UnauthorizedException('server error')
         }
        
     }
 
-    async IdFind(email:string){
+    async EmailFind(email:string){
         // buscar el id y devolverlo si lo econtro 
         // remplazar el false para vericicar si es verdad 
+        const filter ={
+                    email: { S: email }
+                }
+        
+
+
+        //const command = new ScanCommand(filter);        
         if (false){
             throw new UnauthorizedException('the email is in use.')
         }
