@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, Post, Body } from "@nestjs/common";
-import { TestService } from "./user.service";
+import { UserService } from "./user.service";
 import { v4 } from "uuid";
 import { UserRegister } from "./dto/user.dto";
 

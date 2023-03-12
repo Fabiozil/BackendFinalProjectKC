@@ -24,7 +24,7 @@ provider:
     #         - ${ssm:/secrets/SECURITY_GROUP_ID}
     #     subnetIds:
     #         - ${ssm:/secrets/SUBNET_ID}
-    environment:
+    # environment:
     tags:
         Name: api-backend
         Description: "Proyecto final KK"
@@ -80,9 +80,9 @@ functions:
                   cors: true
                   method: post
                   path: /user/login
-                #   authorizer:
-                #       type: TOKEN
-                #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+                  #   authorizer:
+                  #       type: TOKEN
+                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
 resources:
     # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}

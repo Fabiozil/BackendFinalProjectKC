@@ -6,7 +6,7 @@ import { UserModel } from "../common/model/user.model";
 import jwt from "jsonwebtoken";
 
 @Injectable()
-export class TestService {
+export class UserService {
     constructor(
         private readonly responseService: ResponseService,
         private readonly logger: LoggerHelper,
