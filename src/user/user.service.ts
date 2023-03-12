@@ -30,6 +30,8 @@ export class UserService {
                     expiresIn: "1h",
                 }
             );
+
+            return this.responseService.success("User registered successfully", {response: []})
         } catch (err) {
             console.error(err);
             return this.responseService.error(err, []);

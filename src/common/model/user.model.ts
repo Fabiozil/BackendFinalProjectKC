@@ -4,7 +4,7 @@ import {
     ScanCommand,
 } from "@aws-sdk/client-dynamodb";
 import { UserRegister } from "../../user/dto/user.dto";
-import bcrypt from "bcrypt";
+const bcrypt = require("bcrypt");
 
 export class UserModel {
     public dynamoClient: DynamoDBClient;
