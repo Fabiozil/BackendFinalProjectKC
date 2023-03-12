@@ -1,15 +1,15 @@
 import { Controller, Get, HttpCode, Post, Body } from "@nestjs/common";
-import { TestService } from "./user.service";
+import { UserService } from "./user.service";
 import { v4 } from "uuid";
+import { UserRegister } from "./dto/user.dto";
 
-@Controller("test")
-export class TestController {
-    constructor(private readonly testService: TestService) {}
+@Controller("user")
+export class UserController {
+    constructor(private readonly userService: UserService) {}
 
-    @Get("ping")
-    @HttpCode(200)
-    async getPatient() {
-        return await this.testService.ping();
+    @Post("/register")
+    async loginHandler(@Body() bodyParams: UserRegister) {
+        return await this.userService.register(bodyParams);
     }
 
     // @Post("login")
