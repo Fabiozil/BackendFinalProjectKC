@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
 import { LoggerHelper } from "../common/helpers/logging";
-import { UserRegister } from "./dto/user.dto";
+import { UserLogin, UserRegister } from "./dto/user.dto";
 import { UserModel } from "../common/model/user.model";
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 @Injectable()
 export class UserService {
@@ -24,16 +24,48 @@ export class UserService {
         try {
             const userData = await this.userModel.register(bodyParams);
             const token = jwt.sign(
-                { username: userData.username, email: userData.email },
-                process.env.TOKEN_KEY,
+                {
+                    username: userData.username,
+                    email: userData.email,
+                    id: userData.id,
+                },
+                "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
                 {
                     expiresIn: "1h",
                 }
             );
 
-            return this.responseService.success("User registered successfully", {response: []})
+            return this.responseService.success(
+                "User registered successfully",
+                { response: [{ ...userData, token }] }
+            );
         } catch (err) {
             console.error(err);
             return this.responseService.error(err, []);
         }
+    }
+
+    async login(bodyParams: UserLogin) {
+        try {
+            const userData = await this.userModel.login(bodyParams);
+            const token = jwt.sign(
+                {
+                    username: userData.username,
+                    email: userData.email,
+                    id: userData.id,
+                },
+                "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
+                {
+                    expiresIn: "1h",
+                }
+            );
+            return this.responseService.success(
+                "User registered successfully",
+                { response: [{ ...userData, token }] }
+            );
+        } catch (err) {
+            console.error(err);
+            return this.responseService.error(err, []);
+        }
+    }
 }

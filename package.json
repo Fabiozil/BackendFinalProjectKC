@@ -43,6 +43,7 @@
         "rimraf": "^3.0.2",
         "rxjs": "^7.2.0",
         "swagger-ui-express": "^4.4.0",
+        "uuid": "^9.0.0",
         "xml2js": "^0.4.19"
     },
     "devDependencies": {

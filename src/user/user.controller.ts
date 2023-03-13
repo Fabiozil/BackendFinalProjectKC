@@ -1,15 +1,19 @@
 import { Controller, Get, HttpCode, Post, Body } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { v4 } from "uuid";
-import { UserRegister } from "./dto/user.dto";
+import { UserLogin, UserRegister } from "./dto/user.dto";
 
 @Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Post("/register")
-    async loginHandler(@Body() bodyParams: UserRegister) {
+    async registerHandler(@Body() bodyParams: UserRegister) {
         return await this.userService.register(bodyParams);
+    }
+
+    @Post("/login")
+    async loginHandler(@Body() bodyParams: UserLogin) {
+        return await this.userService.login(bodyParams);
     }
 
     // @Post("login")

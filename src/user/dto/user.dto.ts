@@ -13,3 +13,13 @@ export class UserRegister {
     @IsString()
     readonly username: string;
 }
+
+export class UserLogin {
+    @IsNotEmpty()
+    @IsString()
+    readonly password: string;
+
+    @IsNotEmpty()
+    @IsEmail()
+    readonly email: string;
+}

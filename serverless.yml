@@ -24,7 +24,9 @@ provider:
     #         - ${ssm:/secrets/SECURITY_GROUP_ID}
     #     subnetIds:
     #         - ${ssm:/secrets/SUBNET_ID}
-    # environment:
+    environment:
+        # TOKEN_KEY: ${ssm:/aws/secretsmanager/ApiBackendKK/secrets/TOKEN_KEY}
+        # TEST_ENV: ${ssm:/TestVariable}
     tags:
         Name: api-backend
         Description: "Proyecto final KK"
