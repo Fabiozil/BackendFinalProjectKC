@@ -3,6 +3,7 @@ import { ResponseService } from "../common/helpers/response.service";
 import { LoggerHelper } from "../common/helpers/logging";
 import { UserLogin, UserRegister } from "./dto/user.dto";
 import { UserModel } from "../common/model/user.model";
+
 const jwt = require("jsonwebtoken");
 
 @Injectable()
@@ -10,7 +11,8 @@ export class UserService {
     constructor(
         private readonly responseService: ResponseService,
         private readonly logger: LoggerHelper,
-        private readonly userModel: UserModel
+        private readonly userModel: UserModel,
+        
     ) {}
 
     async ping() {
@@ -20,6 +22,7 @@ export class UserService {
     async ping2() {
         return this.responseService.success("Success ping 2", { response: [] });
     }
+
     async register(bodyParams: UserRegister) {
         try {
             const userData = await this.userModel.register(bodyParams);
@@ -68,4 +71,23 @@ export class UserService {
             return this.responseService.error(err, []);
         }
     }
+
+    /*async refresToken(token){
+
+        const token = jwt.sign(
+                {
+                    token.username: userData.username,
+                    token.email: userData.email,
+                    token.id: userData.id,
+                },
+                "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
+                {
+                    expiresIn: "1h",
+                }
+            );
+
+        return token
+
+        
+    }*/
 }

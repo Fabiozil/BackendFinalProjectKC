@@ -3,7 +3,7 @@ import {
     PutItemCommand,
     ScanCommand,
 } from "@aws-sdk/client-dynamodb";
-import { UserLogin, UserRegister } from "../../user/dto/user.dto";\
+import { UserLogin, UserRegister } from "../../user/dto/user.dto";
 import { v4 as uuidv4 } from 'uuid';
 const bcrypt = require("bcrypt");
 
