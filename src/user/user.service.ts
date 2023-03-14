@@ -73,23 +73,19 @@ export class UserService {
         }
     }
 
-    /*async refresToken(token){
+    async refreshToken(token) {
+        const neWtoken = jwt.sign(
+            {
+                username: token.username,
+                email: token.email,
+                id: token.id,
+            },
+            "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
+            {
+                expiresIn: "1h",
+            }
+        );
 
-        const token = jwt.sign(
-                {
-                    token.username: userData.username,
-                    token.email: userData.email,
-                    token.id: userData.id,
-                },
-                "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
-                {
-                    expiresIn: "1h",
-                }
-            );
-
-        return token
-
-        
-    }*/
-    async refreshToken() {}
+    return neWtoken
+    }
 }

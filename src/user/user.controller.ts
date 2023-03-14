@@ -16,33 +16,15 @@ export class UserController {
         return await this.userService.login(bodyParams);
     }
 
-   /* @Get("/RefresToken")
+    @Get("/RefresToken")
     async reFresToken(@Query() user){
         console.log("🚀 ~ file: user.controller.ts:22 ~ UserController ~ reFresToken ~ user.user:", user.user)
         return await this.userService.refresToken(user.user);
-        
-       
-
-    }*/
+    }
    
     @Get("/ping")
     async pingHandler() {
         return await this.userService.ping();
     }
 
-    // @Post("login")
-    // async login(@Body() payload: any) {
-    //     const { name, password }: { name: string; password: string } = payload;
-    //     const id = v4();
-    //     const passwordHash = hashPassword(password);
-    //     const params: any = { id, name, passwordHash };
-
-    //     try {
-    //         const result = login(params);
-
-    //         return result;
-    //     } catch (error) {
-    //         return error;
-    //     }
-    // }
 }
