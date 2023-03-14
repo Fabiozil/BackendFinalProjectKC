@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Post, Body, Param, Query } from "@nestjs/common";
+import { Controller, Get, HttpCode, Post, Body, Param, Query,Headers } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserLogin, UserRegister } from "./dto/user.dto";
 
@@ -17,9 +17,9 @@ export class UserController {
     }
 
     @Get("/RefresToken")
-    async reFresToken(@Query() user){
+    async reFresTokenHandler(@Headers('user') user){
         console.log("🚀 ~ file: user.controller.ts:22 ~ UserController ~ reFresToken ~ user.user:", user.user)
-        return await this.userService.refresToken(user.user);
+        return await this.userService.refreshToken(user);
     }
    
     @Get("/ping")
