@@ -14,12 +14,11 @@ export class UserService {
     ) {}
 
     async ping() {
-        return this.responseService.success("Success ping", { response: [] });
+        return this.responseService.success("Success ping with token", {
+            response: [],
+        });
     }
 
-    async ping2() {
-        return this.responseService.success("Success ping 2", { response: [] });
-    }
     async register(bodyParams: UserRegister) {
         try {
             const userData = await this.userModel.register(bodyParams);
@@ -29,7 +28,7 @@ export class UserService {
                     email: userData.email,
                     id: userData.id,
                 },
-                "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
+                process.env.TOKEN_KEY,
                 {
                     expiresIn: "1h",
                 }
@@ -54,18 +53,19 @@ export class UserService {
                     email: userData.email,
                     id: userData.id,
                 },
-                "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
+                process.env.TOKEN_KEY,
                 {
                     expiresIn: "1h",
                 }
             );
-            return this.responseService.success(
-                "User registered successfully",
-                { response: [{ ...userData, token }] }
-            );
+            return this.responseService.success("User logged successfully", {
+                response: [{ ...userData, token }],
+            });
         } catch (err) {
             console.error(err);
             return this.responseService.error(err, []);
         }
     }
+
+    async refreshToken() {}
 }

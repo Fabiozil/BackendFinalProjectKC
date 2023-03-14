@@ -15,7 +15,7 @@ export class VerifyToken implements NestMiddleware {
         }
 
         try {
-            const decoded = jwt.verify(token, "7Ec77I4r39V*#c!cPZ#X@t9");
+            const decoded = jwt.verify(token, process.env.TOKEN_KEY);
             req.user = decoded;
         } catch (err) {
             return res.status(401).send("Invalid token");
