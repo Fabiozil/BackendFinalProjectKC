@@ -82,6 +82,11 @@ functions:
                   method: post
                   path: /user/register
                   private: true
+            - http:
+                  cors: true
+                  method: get
+                  path: /user/reFresToken
+                  private: true
 resources:
     # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}
