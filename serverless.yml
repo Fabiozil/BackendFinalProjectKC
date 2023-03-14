@@ -25,7 +25,7 @@ provider:
     #     subnetIds:
     #         - ${ssm:/secrets/SUBNET_ID}
     environment:
-        # TOKEN_KEY: ${ssm:/aws/secretsmanager/ApiBackendKK/secrets/TOKEN_KEY}
+        TOKEN_KEY: ${ssm:/ApiBackendKK/secrets/TOKEN_KEY}
         # TEST_ENV: ${ssm:/TestVariable}
     tags:
         Name: api-backend
@@ -37,8 +37,11 @@ provider:
         resourceType: private
         dataType: private
     apiGateway:
-        restApiId: i7ujs6geb2
-        restApiRootResourceId: dm9qubf1gj
+        restApiId: ${ssm:/ApiBackendKK/secrets/REST_API_ID}
+        restApiRootResourceId: ${ssm:/ApiBackendKK/secrets/REST_API_RESOURCE_ID}
+        apiKeys:
+            - name: apiKey
+              value: ${ssm:/ApiBackendKK/secrets/CUSTOM_AUTHORIZER}
     iam:
         role:
             statements:
@@ -67,31 +70,18 @@ functions:
             - http:
                   cors: true
                   method: get
-                  path: /test/ping
-                  #   authorizer:
-                  #       type: TOKEN
-                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
-            - http:
-                  cors: true
-                  method: post
-                  path: /test/ping-2
-                  #   authorizer:
-                  #       type: TOKEN
-                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+                  path: /user/ping
+                  private: true
             - http:
                   cors: true
                   method: post
                   path: /user/login
-                  #   authorizer:
-                  #       type: TOKEN
-                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+                  private: true
             - http:
                   cors: true
                   method: post
                   path: /user/register
-                  #   authorizer:
-                  #       type: TOKEN
-                  #       authorizerId: ${ssm:/secrets/CUSTOM_AUTHORIZER}
+                  private: true
 resources:
     # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}

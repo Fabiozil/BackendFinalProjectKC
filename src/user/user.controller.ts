@@ -25,6 +25,11 @@ export class UserController {
 
     }*/
    
+    @Get("/ping")
+    async pingHandler() {
+        return await this.userService.ping();
+    }
+
     // @Post("login")
     // async login(@Body() payload: any) {
     //     const { name, password }: { name: string; password: string } = payload;
