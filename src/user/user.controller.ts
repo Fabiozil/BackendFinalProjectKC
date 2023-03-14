@@ -18,7 +18,6 @@ export class UserController {
 
     @Get("/RefresToken")
     async reFresToken(@Headers('user') user){
-        //console.log("🚀 ~ file: user.controller.ts:22 ~ UserController ~ reFresToken ~ user.user:", user)
         
         return await this.userService.refreshToken(user);
     }

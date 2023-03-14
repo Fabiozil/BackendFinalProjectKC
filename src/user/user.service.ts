@@ -73,19 +73,25 @@ export class UserService {
         }
     }
 
-    async refreshToken(token) {
-        const neWtoken = jwt.sign(
+    async refreshToken({username,email,id}) {
+        if(username!! || email!! || id!!){
+            return this.responseService.error("credentials not found", []);
+        }
+
+        const token = jwt.sign(
             {
-                username: token.username,
-                email: token.email,
-                id: token.id,
+                username: username,
+                email: email,
+                id: id,
             },
             "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
             {
                 expiresIn: "1h",
             }
         );
-
-    return neWtoken
+        return this.responseService.success("New token created successfully",{
+            response:[{token}]
+            })
+        
     }
 }
