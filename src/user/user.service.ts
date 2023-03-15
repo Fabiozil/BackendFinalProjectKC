@@ -10,8 +10,7 @@ export class UserService {
     constructor(
         private readonly responseService: ResponseService,
         private readonly logger: LoggerHelper,
-        private readonly userModel: UserModel,
-        
+        private readonly userModel: UserModel
     ) {}
 
     async ping() {
@@ -24,9 +23,9 @@ export class UserService {
         return this.responseService.success("Success ping 2", { response: [] });
     }
 
-    async refreshToken({username,email,id}) {
-        if(username!! || email!! || id!!){
-            return this.responseService.error("credentials not found", []);
+    async refreshToken({ username, email, id }) {
+        if (username!! || email!! || id!!) {
+            return this.responseService.error("Credentials not found", []);
         }
 
         const token = jwt.sign(
@@ -35,14 +34,13 @@ export class UserService {
                 email: email,
                 id: id,
             },
-            "7Ec77I4r39V*#c!cPZ#X@t9", // process.env.TOKEN_KEY,
+            process.env.TOKEN_KEY,
             {
                 expiresIn: "1h",
             }
         );
-        return this.responseService.success("New token created successfully",{
-            response:[{token}]
-            })
-        
+        return this.responseService.success("New token created successfully", {
+            response: [{ token }],
+        });
     }
 }
