@@ -85,7 +85,7 @@ functions:
             - http:
                   cors: true
                   method: get
-                  path: /user/reFresToken
+                  path: /user/refresh-token
                   private: true
 resources:
     # DynamoDB
