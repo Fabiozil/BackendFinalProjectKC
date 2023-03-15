@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-export class UserRegister {
+export class AuthRegister {
     @IsNotEmpty()
     @IsEmail()
     readonly email: string;
@@ -14,7 +14,7 @@ export class UserRegister {
     readonly username: string;
 }
 
-export class UserLogin {
+export class AuthLogin {
     @IsNotEmpty()
     @IsString()
     readonly password: string;

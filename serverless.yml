@@ -75,12 +75,12 @@ functions:
             - http:
                   cors: true
                   method: post
-                  path: /user/login
+                  path: /auth/login
                   private: true
             - http:
                   cors: true
                   method: post
-                  path: /user/register
+                  path: /auth/register
                   private: true
             - http:
                   cors: true
