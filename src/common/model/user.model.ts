@@ -24,6 +24,7 @@ export class UserModel {
             },
         });
         const existingUser = await this.dynamoClient.send(findCommand);
+        
 
         if (existingUser.Items.length > 0) {
             throw new Error("Email or username already registered");

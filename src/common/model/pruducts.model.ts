@@ -20,7 +20,6 @@ export class ProductsModel {
     }
 
     async createProduct(bodyParams){
-        console.log("🚀 ~ file: pruducts.model.ts:17 ~ ProductsModel ~ createProduct ~ bodyParams:", bodyParams)
         const productId = uuidv4();
 
         const putCommand = new PutItemCommand({
@@ -39,6 +38,8 @@ export class ProductsModel {
     }
 
     async findProducts(id){
+        console.log("🚀 ~ file: pruducts.model.ts:42 ~ ProductsModel ~ findProducts ~ id:", id)
+        
         const findCommand = new ScanCommand({
             TableName: "api-backend-kk-posts",
             FilterExpression: "id = :id",
@@ -48,10 +49,13 @@ export class ProductsModel {
         });
 
         const productId = await this.dynamoClient.send(findCommand);
-        return productId
+        console.log("🚀 ~ file: pruducts.model.ts:51 ~ ProductsModel ~ findProducts ~ productId:", productId)
+        
+        return productId.Items
     }
 
     async updateProducts(bodyParams){
+    console.log("🚀 ~ file: pruducts.model.ts:58 ~ ProductsModel ~ updateProducts ~ bodyParams:", bodyParams)
 
         const update = new UpdateItemCommand({
             TableName: "api-backend-kk-posts",
@@ -67,11 +71,11 @@ export class ProductsModel {
                 photo: { S: bodyParams.photo },
             },
         });
+       
         
 
-        const productId = await this.dynamoClient.send(update);
-        return productId
-
+        await this.dynamoClient.send(update);
+       
 
     }
 
@@ -82,13 +86,15 @@ export class ProductsModel {
         Key:{
             ":id": { S: id }
         },
+        ExpressionAttributeValues:{
+            id: { S: id }
+        }, 
+        ConditionExpression:"attribute_exists"
+
        });
 
         
        await this.dynamoClient.send(deleteCommand);
-
-        return 
-
     }
 
     

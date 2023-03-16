@@ -92,6 +92,22 @@ functions:
                   method: post
                   path: /products/create-product
                   private: true
+            - http:
+                  cors: true
+                  method: get
+                  path: /products/find-id
+                  private: true
+            - http:
+                  cors: true
+                  method: put
+                  path: /products/update-products
+                  private: true
+            - http:
+                  cors: true
+                  method: delete
+                  path: /products/deleted-products
+                  private: true
+
 resources:
     # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}
