@@ -6,8 +6,8 @@ import { ProductsService } from "./products.service";
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
-    @Get("/refresh-token")
-    async refreshTokenHandler(@Headers("user") user) {
+    @Get("/create-product")
+    async createProduct(@Headers("user") user) {
         return 0;
     }
 }

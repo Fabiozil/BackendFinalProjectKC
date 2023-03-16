@@ -3,7 +3,7 @@ import {
     PutItemCommand,
     ScanCommand,
 } from "@aws-sdk/client-dynamodb";
-import { UserLogin, UserRegister } from "../../user/dto/user.dto";
+import { AuthLogin, AuthRegister } from "../../auth/dto/auth.dto";
 import { v4 as uuidv4 } from 'uuid';
 const bcrypt = require("bcrypt");
 
@@ -14,7 +14,7 @@ export class UserModel {
         this.dynamoClient = new DynamoDBClient({ region: "us-east-1" });
     }
 
-    async register(userData: UserRegister) {
+    async register(userData: AuthRegister) {
         const findCommand = new ScanCommand({
             TableName: "api-backend-kk-users",
             FilterExpression: "username = :username OR email = :email",
@@ -50,7 +50,7 @@ export class UserModel {
         };
     }
 
-    async login(userData: UserLogin) {
+    async login(userData: AuthLogin) {
         const findCommand = new ScanCommand({
             TableName: "api-backend-kk-users",
             FilterExpression: "email = :email",
