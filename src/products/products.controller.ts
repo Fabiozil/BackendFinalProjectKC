@@ -1,4 +1,4 @@
-import { Controller, Get, Headers } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Post } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 
 
@@ -6,8 +6,10 @@ import { ProductsService } from "./products.service";
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
-    @Get("/create-product")
-    async createProduct(@Headers("user") user) {
-        return 0;
+    @Post("/create-product")
+    async createProductHandler(@Body() bodyParams) {
+        console.log("🚀 ~ file: products.controller.ts:11 ~ ProductsController ~ createProductHandler ~ bodyParams:", bodyParams)
+        
+        return await this.productsService.createProduct(bodyParams);
     }
 }

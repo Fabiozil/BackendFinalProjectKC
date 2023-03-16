@@ -7,7 +7,7 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get("/refresh-token")
-    async refreshTokenHandler(@Headers("user") user: UserInterface) {
+    async refreshToken(@Headers("user") user: UserInterface) {
         return await this.userService.refreshToken(user);
     }
 }

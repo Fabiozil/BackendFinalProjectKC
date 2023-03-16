@@ -87,6 +87,11 @@ functions:
                   method: get
                   path: /user/refresh-token
                   private: true
+            - http:
+                  cors: true
+                  method: post
+                  path: /products/create-product
+                  private: true
 resources:
     # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}

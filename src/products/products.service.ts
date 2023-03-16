@@ -12,13 +12,34 @@ export class ProductsService {
         private readonly productsModel: ProductsModel
     ) {}
 
-    async ping() {
-        return this.responseService.success("Success ping with token", {
+    async createProduct(bodyParams) {
+        try {
+
+            await this.productsModel.createProduct(bodyParams)
+            
+        } catch (err) {
+            console.log("🚀 ~ file: products.service.ts:21 ~ ProductsService ~ createProduct ~ err:", err)
+            return this.responseService.error(err, []);
+        }
+        
+        return this.responseService.success( "Product registered successfully", {
             response: [],
         });
     }
 
-    async ping2() {
-        return this.responseService.success("Success ping 2", { response: [] });
+    async productFindId(bodyParams){
+        try {
+            const product = await this.productsModel.findProducts(bodyParams)
+
+            return this.responseService.success( "Product find successfully", {
+                response: [{product}],
+            });
+    
+        } catch (err) {
+            console.log("🚀 ~ file: products.service.ts:21 ~ ProductsService ~ createProduct ~ err:", err)
+            return this.responseService.error(err, []);
+        }
     }
+
+    
 }
