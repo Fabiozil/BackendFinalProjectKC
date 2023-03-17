@@ -57,35 +57,54 @@ export class PostsModel {
 
     async updatePosts(bodyParams){
 
-        const update = {
-            ExpressionAttributeNames:{
-                "#name": `${bodyParams.name}` ,
-                "#sale": `${bodyParams.sale}`,
-                "#price":`${bodyParams.price}`,
-                "#photo": `${bodyParams.photo}`,
-            },
-            ExpressionAttributeValues:{
-                "name": { "S": ":name" },
-                "sale": { "S":":sale" },
-                "price": { "S":":price" },
-                "photo": { "S": ":photo" },
-            },
-            Key:{
-                "id":{
-                    "S":`${bodyParams.id}`
-                },
+        // const update = {
+        //     ExpressionAttributeNames:{
+        //         "#name": `${bodyParams.name}` ,
+        //         "#sale": `${bodyParams.sale}`,
+        //         "#price":`${bodyParams.price}`,
+        //         "#photo": `${bodyParams.photo}`,
+        //     },
+        //     ExpressionAttributeValues:{
+        //         "name": { "S": ":name" },
+        //         "sale": { "S":":sale" },
+        //         "price": { "S":":price" },
+        //         "photo": { "S": ":photo" },
+        //     },
+        //     Key:{
+        //         "id":{
+        //             "S":`${bodyParams.id}`
+        //         },
                
 
-            },
-            ReturnValues: "ALL_NEW",
-            TableName: "api-backend-kk-posts",
-            UpdateExpression: "SET #name = :name, #sale = :sale, #price = :price, #photo = :photo "
-            };
-       
+        //     },
+        //     ReturnValues: "ALL_NEW",
+        //     TableName: "api-backend-kk-posts",
+        //     UpdateExpression: "SET #name = :name, #sale = :sale, #price = :price, #photo = :photo "
+        //     };
+            const update = {
+                TableName: "api-backend-kk-posts",
+                Key:{
+                    "id":{
+                        "S":`${bodyParams.id}`
+                    },
+                   
+    
+                },
+                AttributeUpdates :{
+                    "Genre":{
+                        "Action": "PUT", 
+                        "name": { "S": `${bodyParams.name}` },
+                        "sale": { "S":`${bodyParams.sale}` },
+                        "price": { "S":`${bodyParams.price}` },
+                        "photo": { "S": `${bodyParams.photo}` },
+                    },
+                }
+                };
+           
         
         const command = new UpdateItemCommand(update);
-        let  a = await this.dynamoClient.send(command);
-        console.log("🚀 ~ file: posts.model.ts:75 ~ PostsModel ~ updatePosts ~ a:", a)
+        await this.dynamoClient.send(command);
+       
        
 
     }
@@ -94,14 +113,9 @@ export class PostsModel {
 
        const deleteCommand = new DeleteItemCommand({
         TableName: "api-backend-kk-posts",
-        Key:{
-            ":id": { S: id }
-        },
-        ExpressionAttributeValues:{
-            id: { S: id }
-        }, 
-        ConditionExpression:"attribute_exists"
-
+        Key:{"id":{
+            "S":`${id}`
+        },}
        });
 
         
