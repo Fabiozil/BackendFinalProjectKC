@@ -4,8 +4,7 @@ import {
     ScanCommand,
     DeleteItemCommand,
     UpdateItemCommand,
-    
-
+    GetItemCommand
 } from "@aws-sdk/client-dynamodb";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,6 +16,14 @@ export class PostsModel {
         this.dynamoClient = new DynamoDBClient({ region: "us-east-1" });
     }
     async posts(){
+        const input = {
+            TableName: "api-backend-kk-posts",
+            Key:{"id":{
+                "S":"*"
+            },}
+          };
+          const command = new GetItemCommand(input);
+          const response = await this.dynamoClient.send(command);
 
     }
 

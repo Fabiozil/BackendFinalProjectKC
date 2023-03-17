@@ -4,7 +4,12 @@ import { PostsService } from "./posts.service";
 
 @Controller("posts")
 export class PostsController {
+
     constructor(private readonly postsService: PostsService) {}
+    @Get("/get-posts")
+    async getPosts(){
+    return await this.postsService.getPosts()
+    }
 
     @Post("/create-posts")
     async createPostsHandler(@Body() bodyParams) {
@@ -13,7 +18,7 @@ export class PostsController {
 
     @Get("/find-id")
     async findPosts(@Query("id") bodyParams){
-    console.log("🚀 ~ file: posts.controller.ts:18 ~ PostsController ~ findPosts ~ bodyParams:", bodyParams)
+
     return await this.postsService.productFindId(bodyParams)
     }
 

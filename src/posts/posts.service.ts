@@ -12,6 +12,22 @@ export class PostsService {
         private readonly postsModel: PostsModel
     ) {}
 
+    async getPosts(){
+        try {
+
+            const post =await this.postsModel.posts()
+
+            return this.responseService.success( "Posts registered successfully", {
+                response: [{post}],
+            });
+            
+        } catch (err) {
+            console.log("🚀 ~ file: posts.service.ts:21 ~ PostsService ~ createPosts ~ err:", err)
+            return this.responseService.error(err, []);
+        }
+
+    }
+
     async createPosts(bodyParams) {
         try {
 

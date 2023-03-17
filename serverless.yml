@@ -107,6 +107,11 @@ functions:
                   method: delete
                   path: /posts/deleted-posts
                   private: true
+            - http:
+                  cors: true
+                  method: get
+                  path: /posts/get-posts
+                  private: true
 
 resources:
     # DynamoDB
