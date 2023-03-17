@@ -9,17 +9,17 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 
-export class ProductsModel {
+export class PostsModel {
     public dynamoClient: DynamoDBClient;
 
     constructor() {
         this.dynamoClient = new DynamoDBClient({ region: "us-east-1" });
     }
-    async products(){
+    async posts(){
 
     }
 
-    async createProduct(bodyParams){
+    async createPosts(bodyParams){
         const productId = uuidv4();
 
         const putCommand = new PutItemCommand({
@@ -37,8 +37,8 @@ export class ProductsModel {
         return
     }
 
-    async findProducts(id){
-        console.log("🚀 ~ file: pruducts.model.ts:42 ~ ProductsModel ~ findProducts ~ id:", id)
+    async findPosts(id){
+        console.log("🚀 ~ file: pruducts.model.ts:42 ~ PostsModel ~ findPosts ~ id:", id)
         
         const findCommand = new ScanCommand({
             TableName: "api-backend-kk-posts",
@@ -49,13 +49,13 @@ export class ProductsModel {
         });
 
         const productId = await this.dynamoClient.send(findCommand);
-        console.log("🚀 ~ file: pruducts.model.ts:51 ~ ProductsModel ~ findProducts ~ productId:", productId)
+        console.log("🚀 ~ file: pruducts.model.ts:51 ~ PostsModel ~ findPosts ~ productId:", productId)
         
         return productId.Items
     }
 
-    async updateProducts(bodyParams){
-    console.log("🚀 ~ file: pruducts.model.ts:58 ~ ProductsModel ~ updateProducts ~ bodyParams:", bodyParams)
+    async updatePosts(bodyParams){
+    console.log("🚀 ~ file: pruducts.model.ts:58 ~ PostsModel ~ updatePosts ~ bodyParams:", bodyParams)
 
         const update = new UpdateItemCommand({
             TableName: "api-backend-kk-posts",
@@ -79,7 +79,7 @@ export class ProductsModel {
 
     }
 
-    async deletedProducts(id){
+    async deletedPosts(id){
 
        const deleteCommand = new DeleteItemCommand({
         TableName: "api-backend-kk-posts",

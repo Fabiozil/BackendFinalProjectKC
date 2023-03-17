@@ -90,22 +90,22 @@ functions:
             - http:
                   cors: true
                   method: post
-                  path: /products/create-product
+                  path: /posts/create-posts
                   private: true
             - http:
                   cors: true
                   method: get
-                  path: /products/find-id
+                  path: /posts/find-id
                   private: true
             - http:
                   cors: true
                   method: put
-                  path: /products/update-products
+                  path: /posts/update-posts
                   private: true
             - http:
                   cors: true
                   method: delete
-                  path: /products/deleted-products
+                  path: /posts/deleted-posts
                   private: true
 
 resources:
