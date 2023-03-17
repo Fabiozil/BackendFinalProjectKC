@@ -19,8 +19,6 @@ export class PostsController {
 
     @Put("/update-posts")
     async updatePosts(@Body() bodyParams){
-    console.log("🚀 ~ file: posts.controller.ts:18 ~ PostsController ~ findPosts ~ bodyParams:", bodyParams)
-
     return await this.postsService.updatePosts(bodyParams)
     }
 

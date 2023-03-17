@@ -4,6 +4,7 @@ import {
     ScanCommand,
     DeleteItemCommand,
     UpdateItemCommand,
+    
 
 } from "@aws-sdk/client-dynamodb";
 import { v4 as uuidv4 } from 'uuid';
@@ -55,26 +56,36 @@ export class PostsModel {
     }
 
     async updatePosts(bodyParams){
-    console.log("🚀 ~ file: pruducts.model.ts:58 ~ PostsModel ~ updatePosts ~ bodyParams:", bodyParams)
 
-        const update = new UpdateItemCommand({
-            TableName: "api-backend-kk-posts",
-            Key:{
-                ":id": { S: bodyParams.id }
+        const update = {
+            ExpressionAttributeNames:{
+                "#name": `${bodyParams.name}` ,
+                "#sale": `${bodyParams.sale}`,
+                "#price":`${bodyParams.price}`,
+                "#photo": `${bodyParams.photo}`,
             },
             ExpressionAttributeValues:{
-                id: { S: bodyParams.id },
-                name: { S: bodyParams.name },
-                createdAt: { S: bodyParams.createdAt },
-                sale: { S: bodyParams.sale },
-                price: { S: bodyParams.price },
-                photo: { S: bodyParams.photo },
+                "name": { "S": ":name" },
+                "sale": { "S":":sale" },
+                "price": { "S":":price" },
+                "photo": { "S": ":photo" },
             },
-        });
+            Key:{
+                "id":{
+                    "S":`${bodyParams.id}`
+                },
+               
+
+            },
+            ReturnValues: "ALL_NEW",
+            TableName: "api-backend-kk-posts",
+            UpdateExpression: "SET #name = :name, #sale = :sale, #price = :price, #photo = :photo "
+            };
        
         
-
-        await this.dynamoClient.send(update);
+        const command = new UpdateItemCommand(update);
+        let  a = await this.dynamoClient.send(command);
+        console.log("🚀 ~ file: posts.model.ts:75 ~ PostsModel ~ updatePosts ~ a:", a)
        
 
     }

@@ -13,7 +13,6 @@ export class PostsService {
     ) {}
 
     async createPosts(bodyParams) {
-        console.log("🚀 ~ file: posts.service.ts:16 ~ PostsService ~ createPosts ~ bodyParams:", bodyParams)
         try {
 
             await this.postsModel.createPosts(bodyParams)
