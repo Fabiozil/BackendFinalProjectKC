@@ -4,7 +4,6 @@ import {
     ScanCommand,
     DeleteItemCommand,
     UpdateItemCommand,
-    GetItemCommand,
     
 } from "@aws-sdk/client-dynamodb";
 import { PostsCreate, PostsId, PostsUpdate } from "src/posts/dto/posts.dto";
@@ -20,11 +19,9 @@ export class PostsModel {
     async posts(){
         const input = {
             TableName: "api-backend-kk-posts",
-            Key:{"id":{
-                "S":"*"
-            },}
+
           };
-          const command = new GetItemCommand(input);
+          const command = new ScanCommand(input);
           const response = await this.dynamoClient.send(command);
 
           return response; 
