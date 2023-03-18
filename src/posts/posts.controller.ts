@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Headers, Param, Post, Put, Query } from "@nestjs/common";
+import { PostsCreate, PostsId, PostsUpdate } from "./dto/posts.dto";
 import { PostsService } from "./posts.service";
 
 
@@ -12,23 +13,23 @@ export class PostsController {
     }
 
     @Post("/create-posts")
-    async createPostsHandler(@Body() bodyParams) {
+    async createPostsHandler(@Body() bodyParams:PostsCreate) {
         return await this.postsService.createPosts(bodyParams);
     }
 
     @Get("/find-id")
-    async findPosts(@Query("id") bodyParams){
+    async findPosts(@Query("id") bodyParams:PostsId){
 
     return await this.postsService.productFindId(bodyParams)
     }
 
     @Put("/update-posts")
-    async updatePosts(@Body() bodyParams){
+    async updatePosts(@Body() bodyParams:PostsUpdate){
     return await this.postsService.updatePosts(bodyParams)
     }
 
     @Delete("/deleted-posts")
-    async deletedPosts(@Query("id") bodyParams){
+    async deletedPosts(@Query("id") bodyParams:PostsId){
 
     return await this.postsService.deletedPosts(bodyParams)
     }

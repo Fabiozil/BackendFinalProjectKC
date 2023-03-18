@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
 import { LoggerHelper } from "../common/helpers/logging";
 import { PostsModel } from "../common/model/posts.model";
+import { PostsCreate, PostsId, PostsUpdate } from "./dto/posts.dto";
 
 
 @Injectable()
@@ -28,7 +29,7 @@ export class PostsService {
 
     }
 
-    async createPosts(bodyParams) {
+    async createPosts(bodyParams:PostsCreate) {
         try {
 
             await this.postsModel.createPosts(bodyParams)
@@ -45,7 +46,7 @@ export class PostsService {
         
     }
 
-    async productFindId(bodyParams){
+    async productFindId(bodyParams:PostsId){
         try {
             const product = await this.postsModel.findPosts(bodyParams)
 
@@ -59,7 +60,7 @@ export class PostsService {
         }
     }
 
-    async updatePosts(bodyParams){
+    async updatePosts(bodyParams:PostsUpdate){
         try {
             const product = await this.postsModel.updatePosts(bodyParams)
 
@@ -73,7 +74,7 @@ export class PostsService {
         }
     }
 
-    async deletedPosts(bodyParams){
+    async deletedPosts(bodyParams:PostsId){
         try {
             const product = await this.postsModel.deletedPosts(bodyParams)
 

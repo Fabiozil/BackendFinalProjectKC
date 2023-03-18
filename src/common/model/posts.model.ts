@@ -4,8 +4,10 @@ import {
     ScanCommand,
     DeleteItemCommand,
     UpdateItemCommand,
-    GetItemCommand
+    GetItemCommand,
+    
 } from "@aws-sdk/client-dynamodb";
+import { PostsCreate, PostsId, PostsUpdate } from "src/posts/dto/posts.dto";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -25,19 +27,20 @@ export class PostsModel {
           const command = new GetItemCommand(input);
           const response = await this.dynamoClient.send(command);
 
+          return response; 
+
     }
 
-    async createPosts(bodyParams){
+    async createPosts(bodyParams:PostsCreate){
         const productId = uuidv4();
-
         const putCommand = new PutItemCommand({
             TableName: "api-backend-kk-posts",
             Item: {
                 id: { S: productId },
                 name: { S: bodyParams.name },
-                createdAt: { S: bodyParams.createdAt },
-                sale: { S: bodyParams.sale },
-                price: { S: bodyParams.price },
+                createdAt: { S: bodyParams.createAt },
+                sale: { S: `${bodyParams.sale}` },
+                price: { S: `${bodyParams.price}` },
                 photo: { S: bodyParams.photo },
             },
         });
@@ -45,14 +48,14 @@ export class PostsModel {
         return
     }
 
-    async findPosts(id){
+    async findPosts(id:PostsId){
         console.log("🚀 ~ file: pruducts.model.ts:42 ~ PostsModel ~ findPosts ~ id:", id)
         
         const findCommand = new ScanCommand({
             TableName: "api-backend-kk-posts",
             FilterExpression: "id = :id",
             ExpressionAttributeValues: {
-                ":id": { S: id },
+                ":id": { S: `${id}` },
             },
         });
 
@@ -62,7 +65,7 @@ export class PostsModel {
         return productId.Items
     }
 
-    async updatePosts(bodyParams){
+    async updatePosts(bodyParams:PostsUpdate){
 
         // const update = {
         //     ExpressionAttributeNames:{
@@ -116,7 +119,7 @@ export class PostsModel {
 
     }
 
-    async deletedPosts(id){
+    async deletedPosts(id:PostsId){
 
        const deleteCommand = new DeleteItemCommand({
         TableName: "api-backend-kk-posts",
