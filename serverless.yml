@@ -18,6 +18,7 @@ custom:
                 "util-deprecate",
                 "delegates",
                 "gauge",
+                "console-control-strings",
             ]
     apigwBinary:
         types:
