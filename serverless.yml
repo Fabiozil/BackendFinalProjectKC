@@ -17,6 +17,7 @@ custom:
                 "inherits",
                 "util-deprecate",
                 "delegates",
+                "gauge",
             ]
     apigwBinary:
         types:
