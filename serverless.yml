@@ -5,12 +5,16 @@ frameworkVersion: "3"
 custom:
     secrets: ${file(secrets.json)}
     optimize:
-        external: ["swagger-ui-dist"]
+        external: ["swagger-ui-dist", "bcrypt"]
+    apigwBinary:
+    types:
+        - "*/*"
 
 plugins:
     - serverless-plugin-typescript
     - serverless-plugin-optimize
     - serverless-offline
+    - serverless-apigw-binary
 
 package:
     individually: true
@@ -90,27 +94,22 @@ functions:
             - http:
                   cors: true
                   method: post
-                  path: /posts/create-posts
+                  path: /post
                   private: true
             - http:
                   cors: true
                   method: get
-                  path: /posts/find-id
+                  path: /post
                   private: true
             - http:
                   cors: true
                   method: put
-                  path: /posts/update-posts
+                  path: /post
                   private: true
             - http:
                   cors: true
                   method: delete
-                  path: /posts/deleted-posts
-                  private: true
-            - http:
-                  cors: true
-                  method: get
-                  path: /posts/get-posts
+                  path: /post
                   private: true
 
 resources:

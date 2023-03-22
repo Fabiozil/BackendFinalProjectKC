@@ -4,50 +4,72 @@ import {
     ScanCommand,
     DeleteItemCommand,
     UpdateItemCommand,
-    
 } from "@aws-sdk/client-dynamodb";
+import {
+    S3Client,
+    PutObjectCommand,
+    GetObjectCommand,
+} from "@aws-sdk/client-s3";
 import { PostsCreate, PostsId, PostsUpdate } from "src/posts/dto/posts.dto";
-import { v4 as uuidv4 } from 'uuid';
-
+import { v4 as uuidv4 } from "uuid";
 
 export class PostsModel {
     public dynamoClient: DynamoDBClient;
+    public s3Client: S3Client;
 
     constructor() {
         this.dynamoClient = new DynamoDBClient({ region: "us-east-1" });
+        this.s3Client = new S3Client({ region: "us-east-1" });
     }
-    async posts(){
-        const input = {
-            TableName: "api-backend-kk-posts",
+    async getPosts(userId: string) {
+        let command: ScanCommand;
+        if (userId) {
+            command = new ScanCommand({
+                TableName: "api-backend-kk-posts",
+                FilterExpression: "userId = :userId",
+                ExpressionAttributeValues: {
+                    ":userId": { S: userId },
+                },
+            });
+        } else {
+            command = new ScanCommand({ TableName: "api-backend-kk-posts" });
+        }
 
-          };
-          const command = new ScanCommand(input);
-          const response = await this.dynamoClient.send(command);
+        const response = await this.dynamoClient.send(command);
 
-          return response; 
-
+        return response;
     }
 
-    async createPosts(bodyParams:PostsCreate){
+    async createPost(bodyParams: PostsCreate, photo, user) {
         const productId = uuidv4();
+        console.log(photo);
+        const uploadCommand = new PutObjectCommand({
+            Bucket: `post-images-backend-kk`,
+            Key: `${productId}-${photo.originalname}`,
+            Body: photo.buffer,
+        });
+
+        const uploadResult = await this.s3Client.send(uploadCommand);
+        console.log(uploadResult);
+
         const putCommand = new PutItemCommand({
             TableName: "api-backend-kk-posts",
             Item: {
                 id: { S: productId },
                 name: { S: bodyParams.name },
-                createdAt: { S: bodyParams.createAt },
-                sale: { S: `${bodyParams.sale}` },
+                createdAt: { S: `${new Date().toISOString()}` },
+                sale: { BOOL: bodyParams.forSale },
                 price: { S: `${bodyParams.price}` },
-                photo: { S: bodyParams.photo },
+                photo: { S: `${productId}-${photo.originalname}` },
+                userId: { S: user.id },
+                userName: { S: user.username },
             },
         });
         await this.dynamoClient.send(putCommand);
-        return
+        return;
     }
 
-    async findPosts(id:PostsId){
-        console.log("🚀 ~ file: pruducts.model.ts:42 ~ PostsModel ~ findPosts ~ id:", id)
-        
+    async findPosts(id: PostsId) {
         const findCommand = new ScanCommand({
             TableName: "api-backend-kk-posts",
             FilterExpression: "id = :id",
@@ -57,77 +79,61 @@ export class PostsModel {
         });
 
         const productId = await this.dynamoClient.send(findCommand);
-        console.log("🚀 ~ file: pruducts.model.ts:51 ~ PostsModel ~ findPosts ~ productId:", productId)
-        
-        return productId.Items
+
+        return productId.Items;
     }
 
-    async updatePosts(bodyParams:PostsUpdate){
+    async updatePosts(bodyParams: PostsUpdate, photo) {
+        let updateExpression: string;
+        let expressionAttributeValues: any;
+        if (photo) {
+            const uploadCommand = new PutObjectCommand({
+                Bucket: `post-images-backend-kk`,
+                Key: `${bodyParams.id}-${photo.originalname}`,
+                Body: photo.buffer,
+            });
+            const uploadResult = await this.s3Client.send(uploadCommand);
+            updateExpression = `SET #name=:name, sale=:sale, price=:price, photo=:photo`;
+            expressionAttributeValues = {
+                ":name": { S: `${bodyParams.name}` },
+                ":sale": { S: `${bodyParams.sale}` },
+                ":price": { S: `${bodyParams.price}` },
+                ":photo": { S: `${bodyParams.id}-${photo.originalname}` },
+            };
+        } else {
+            updateExpression = `SET #name=:name, sale=:sale, price=:price`;
+            expressionAttributeValues = {
+                ":name": { S: `${bodyParams.name}` },
+                ":sale": { S: `${bodyParams.sale}` },
+                ":price": { S: `${bodyParams.price}` },
+            };
+        }
 
-        // const update = {
-        //     ExpressionAttributeNames:{
-        //         "#name": `${bodyParams.name}` ,
-        //         "#sale": `${bodyParams.sale}`,
-        //         "#price":`${bodyParams.price}`,
-        //         "#photo": `${bodyParams.photo}`,
-        //     },
-        //     ExpressionAttributeValues:{
-        //         "name": { "S": ":name" },
-        //         "sale": { "S":":sale" },
-        //         "price": { "S":":price" },
-        //         "photo": { "S": ":photo" },
-        //     },
-        //     Key:{
-        //         "id":{
-        //             "S":`${bodyParams.id}`
-        //         },
-               
-
-        //     },
-        //     ReturnValues: "ALL_NEW",
-        //     TableName: "api-backend-kk-posts",
-        //     UpdateExpression: "SET #name = :name, #sale = :sale, #price = :price, #photo = :photo "
-        //     };
-            const update = {
-                TableName: "api-backend-kk-posts",
-                Key:{
-                    "id":{
-                        "S":`${bodyParams.id}`
-                    },
-                   
-    
+        const command = new UpdateItemCommand({
+            TableName: "api-backend-kk-posts",
+            Key: {
+                id: {
+                    S: `${bodyParams.id}`,
                 },
-                AttributeUpdates :{
-                    "Genre":{
-                        "Action": "PUT", 
-                        "name": { "S": `${bodyParams.name}` },
-                        "sale": { "S":`${bodyParams.sale}` },
-                        "price": { "S":`${bodyParams.price}` },
-                        "photo": { "S": `${bodyParams.photo}` },
-                    },
-                }
-                };
-           
-        
-        const command = new UpdateItemCommand(update);
-        await this.dynamoClient.send(command);
-       
-       
+            },
+            ExpressionAttributeNames: { "#name": "name" },
+            UpdateExpression: updateExpression,
+            ExpressionAttributeValues: expressionAttributeValues,
+        });
 
+        return await this.dynamoClient.send(command);
     }
 
-    async deletedPosts(id:PostsId){
+    async deletePost(queryParams: PostsId) {
+        const deleteCommand = new DeleteItemCommand({
+            TableName: "api-backend-kk-posts",
+            Key: {
+                id: {
+                    S: `${queryParams.id}`,
+                },
+            },
+        });
 
-       const deleteCommand = new DeleteItemCommand({
-        TableName: "api-backend-kk-posts",
-        Key:{"id":{
-            "S":`${id}`
-        },}
-       });
-
-        
-       await this.dynamoClient.send(deleteCommand);
+        return await this.dynamoClient.send(deleteCommand);
     }
-
-    
 }

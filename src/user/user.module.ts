@@ -6,7 +6,7 @@ import { UUIDValidator } from "../common/middleware/uuid-validator";
 import { LoggerHelper } from "../common/helpers/logging";
 import { UserController } from "./user.controller";
 import { UserModel } from "../common/model/user.model";
-
+import { VerifyToken } from "../common/middleware/auth-validator";
 
 @Module({
     providers: [ResponseService, LoggerHelper, UserService, UserModel],
@@ -15,5 +15,6 @@ import { UserModel } from "../common/model/user.model";
 export class UserModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(UUIDValidator).forRoutes(UserController);
+        consumer.apply(VerifyToken).forRoutes(UserController);
     }
 }

@@ -1,4 +1,12 @@
-import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import {
+    IsBoolean,
+    IsDate,
+    IsEmail,
+    IsNotEmpty,
+    IsNumber,
+    IsOptional,
+    IsString,
+} from "class-validator";
 
 export class PostsCreate {
     @IsNotEmpty()
@@ -6,21 +14,17 @@ export class PostsCreate {
     readonly name: string;
 
     @IsNotEmpty()
-    @IsString()
-    @IsDate()
-    readonly createAt: string;
-
-    @IsNotEmpty()
     @IsBoolean()
-    readonly sale: boolean;
+    readonly forSale: boolean;
 
     @IsNotEmpty()
     @IsNumber()
     readonly price: number;
+}
 
-    @IsNotEmpty()
-    @IsString()
-    readonly photo: string;
+export class GetPostDTO {
+    @IsOptional()
+    readonly user_id: string;
 }
 
 export class PostsId {
@@ -28,7 +32,6 @@ export class PostsId {
     @IsString()
     readonly id: string;
 }
-
 
 export class PostsUpdate {
     @IsNotEmpty()
@@ -40,20 +43,10 @@ export class PostsUpdate {
     readonly name: string;
 
     @IsNotEmpty()
-    @IsString()
-    @IsDate()
-    readonly createdAt: string;
-
-    @IsNotEmpty()
     @IsBoolean()
     readonly sale: boolean;
 
     @IsNotEmpty()
     @IsNumber()
     readonly price: number;
-
-    @IsNotEmpty()
-    @IsString()
-    readonly photo: string;
 }
-

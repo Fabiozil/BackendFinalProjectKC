@@ -11,8 +11,7 @@ export class AuthService {
     constructor(
         private readonly responseService: ResponseService,
         private readonly logger: LoggerHelper,
-        private readonly userModel: UserModel,
-        
+        private readonly userModel: UserModel
     ) {}
 
     async ping() {
@@ -46,7 +45,7 @@ export class AuthService {
             );
         } catch (err) {
             console.error(err);
-            return this.responseService.error(err, []);
+            return this.responseService.error(err.message, []);
         }
     }
 
@@ -69,7 +68,7 @@ export class AuthService {
             });
         } catch (err) {
             console.error(err);
-            return this.responseService.error(err, []);
+            return this.responseService.error(err.message, []);
         }
     }
 }

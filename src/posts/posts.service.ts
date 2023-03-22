@@ -2,8 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ResponseService } from "../common/helpers/response.service";
 import { LoggerHelper } from "../common/helpers/logging";
 import { PostsModel } from "../common/model/posts.model";
-import { PostsCreate, PostsId, PostsUpdate } from "./dto/posts.dto";
-
+import { GetPostDTO, PostsCreate, PostsId, PostsUpdate } from "./dto/posts.dto";
 
 @Injectable()
 export class PostsService {
@@ -13,81 +12,61 @@ export class PostsService {
         private readonly postsModel: PostsModel
     ) {}
 
-    async getPosts(){
+    async getPosts(queryParams: GetPostDTO) {
         try {
+            const posts = await this.postsModel.getPosts(queryParams.user_id);
 
-            const post =await this.postsModel.posts()
-
-            return this.responseService.success( "Posts registered successfully", {
-                response: [{post}],
-            });
-            
+            console.log(posts.Items);
+            return this.responseService.success(
+                "Query executed successfully!",
+                {
+                    response: [posts.Items],
+                }
+            );
         } catch (err) {
-            console.log("🚀 ~ file: posts.service.ts:21 ~ PostsService ~ createPosts ~ err:", err)
-            return this.responseService.error(err, []);
-        }
-
-    }
-
-    async createPosts(bodyParams:PostsCreate) {
-        try {
-
-            await this.postsModel.createPosts(bodyParams)
-
-            return this.responseService.success( "Posts registered successfully", {
-                response: [],
-            });
-            
-        } catch (err) {
-            console.log("🚀 ~ file: posts.service.ts:21 ~ PostsService ~ createPosts ~ err:", err)
-            return this.responseService.error(err, []);
-        }
-        
-        
-    }
-
-    async productFindId(bodyParams:PostsId){
-        try {
-            const product = await this.postsModel.findPosts(bodyParams)
-
-            return this.responseService.success( "Posts find successfully", {
-                response: [{product}],
-            });
-    
-        } catch (err) {
-            console.log("🚀 ~ file: posts.service.ts:21 ~ PostsService ~ createPosts ~ err:", err)
+            console.error(err);
             return this.responseService.error(err, []);
         }
     }
 
-    async updatePosts(bodyParams:PostsUpdate){
+    async createPost(bodyParams: PostsCreate, file, user) {
         try {
-            const product = await this.postsModel.updatePosts(bodyParams)
-
-            return this.responseService.success( "Posts find successfully", {
-                response: [{product}],
-            });
-    
+            await this.postsModel.createPost(bodyParams, file, user);
+            return this.responseService.success(
+                "Posts registered successfully",
+                {
+                    response: [],
+                }
+            );
         } catch (err) {
-            console.log("🚀 ~ file: posts.service.ts:21 ~ PostsService ~ createPosts ~ err:", err)
+            console.error(err);
             return this.responseService.error(err, []);
         }
     }
 
-    async deletedPosts(bodyParams:PostsId){
+    async updatePost(bodyParams: PostsUpdate, file) {
         try {
-            const product = await this.postsModel.deletedPosts(bodyParams)
+            const product = await this.postsModel.updatePosts(bodyParams, file);
 
-            return this.responseService.success( "Posts find successfully", {
-                response: [{product}],
+            return this.responseService.success("Post updated successfully!", {
+                response: [{ product }],
             });
-    
         } catch (err) {
-            console.log("🚀 ~ file: posts.service.ts:21 ~ PostsService ~ createPosts ~ err:", err)
+            console.error(err);
             return this.responseService.error(err, []);
         }
-
     }
 
-    
+    async deletePost(queryParams: PostsId) {
+        try {
+            const product = await this.postsModel.deletePost(queryParams);
+
+            return this.responseService.success("Posts deleted successfully", {
+                response: [{ product }],
+            });
+        } catch (err) {
+            console.error(err);
+            return this.responseService.error(err, []);
+        }
+    }
 }

@@ -4,7 +4,7 @@ import {
     ScanCommand,
 } from "@aws-sdk/client-dynamodb";
 import { AuthLogin, AuthRegister } from "../../auth/dto/auth.dto";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 const bcrypt = require("bcrypt");
 
 export class UserModel {
@@ -24,7 +24,6 @@ export class UserModel {
             },
         });
         const existingUser = await this.dynamoClient.send(findCommand);
-        
 
         if (existingUser.Items.length > 0) {
             throw new Error("Email or username already registered");
@@ -61,7 +60,6 @@ export class UserModel {
         });
 
         const existingUser = await this.dynamoClient.send(findCommand);
-        console.log(existingUser);
 
         if (existingUser.Items.length === 0) {
             throw new Error("Email not registered");

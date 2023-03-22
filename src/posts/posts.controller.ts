@@ -1,37 +1,52 @@
-import { Body, Controller, Delete, Get, Headers, Param, Post, Put, Query } from "@nestjs/common";
-import { PostsCreate, PostsId, PostsUpdate } from "./dto/posts.dto";
+import {
+    Body,
+    Controller,
+    createParamDecorator,
+    Delete,
+    Get,
+    Headers,
+    Param,
+    Post,
+    Put,
+    Query,
+    UploadedFile,
+    UseInterceptors,
+} from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { GetPostDTO, PostsCreate, PostsId, PostsUpdate } from "./dto/posts.dto";
 import { PostsService } from "./posts.service";
 
+const User = createParamDecorator((data, req) => {
+    return req.args[0].user;
+});
 
-@Controller("posts")
+@Controller("post")
 export class PostsController {
-
     constructor(private readonly postsService: PostsService) {}
-    @Get("/get-posts")
-    async getPosts(){
-    return await this.postsService.getPosts()
+    @Get("/")
+    async getPosts(@Query() queryParams: GetPostDTO) {
+        return await this.postsService.getPosts(queryParams);
     }
 
-    @Post("/create-posts")
-    async createPostsHandler(@Body() bodyParams:PostsCreate) {
-        return await this.postsService.createPosts(bodyParams);
+    @Post("/")
+    @UseInterceptors(FileInterceptor("photo"))
+    async createPostsHandler(
+        @Body() bodyParams,
+        @UploadedFile() file,
+        @User() user
+    ) {
+        return await this.postsService.createPost(bodyParams, file, user);
     }
 
-    @Get("/find-id")
-    async findPosts(@Query("id") bodyParams:PostsId){
-
-    return await this.postsService.productFindId(bodyParams)
+    @Put("/")
+    @UseInterceptors(FileInterceptor("photo"))
+    async updatePosts(@Body() bodyParams, @UploadedFile() file) {
+        return await this.postsService.updatePost(bodyParams, file);
     }
 
-    @Put("/update-posts")
-    async updatePosts(@Body() bodyParams:PostsUpdate){
-    return await this.postsService.updatePosts(bodyParams)
+    @Delete("/")
+    async deletedPosts(@Query() queryParams: PostsId) {
+        console.log(queryParams);
+        return await this.postsService.deletePost(queryParams);
     }
-
-    @Delete("/deleted-posts")
-    async deletedPosts(@Query("id") bodyParams:PostsId){
-
-    return await this.postsService.deletedPosts(bodyParams)
-    }
-    
 }

@@ -1,6 +1,6 @@
 import { NestMiddleware, Injectable } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 @Injectable()
 export class VerifyToken implements NestMiddleware {
@@ -11,14 +11,15 @@ export class VerifyToken implements NestMiddleware {
         if (!token) {
             return res
                 .status(403)
-                .send("A token is required for authentication ");
+                .json({ error: "A token is required for authentication " });
         }
 
         try {
             const decoded = jwt.verify(token, process.env.TOKEN_KEY);
             req.user = decoded;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            console.error(err);
+            return res.status(401).json({ error: "Invalid token" });
         }
         return next();
     }

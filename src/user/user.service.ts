@@ -13,26 +13,12 @@ export class UserService {
         private readonly userModel: UserModel
     ) {}
 
-    async ping() {
-        return this.responseService.success("Success ping with token", {
-            response: [],
-        });
-    }
-
-    async ping2() {
-        return this.responseService.success("Success ping 2", { response: [] });
-    }
-
     async refreshToken({ username, email, id }) {
-        if (username!! || email!! || id!!) {
-            return this.responseService.error("Credentials not found", []);
-        }
-
         const token = jwt.sign(
             {
-                username: username,
-                email: email,
-                id: id,
+                username,
+                email,
+                id,
             },
             process.env.TOKEN_KEY,
             {
@@ -40,7 +26,7 @@ export class UserService {
             }
         );
         return this.responseService.success("New token created successfully", {
-            response: [{ token }],
+            response: [{ token, username, email, id }],
         });
     }
 }
