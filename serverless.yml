@@ -5,7 +5,7 @@ frameworkVersion: "3"
 custom:
     secrets: ${file(secrets.json)}
     optimize:
-        external: ["swagger-ui-dist", "bcrypt", "@mapbox/node-pre-gyp"]
+        external: ["swagger-ui-dist", "bcrypt", "@mapbox/node-pre-gyp", "nopt"]
     apigwBinary:
         types:
             - "*/*"
