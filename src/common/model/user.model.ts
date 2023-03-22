@@ -5,7 +5,6 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { AuthLogin, AuthRegister } from "../../auth/dto/auth.dto";
 import { v4 as uuidv4 } from "uuid";
-const bcrypt = require("bcrypt");
 
 export class UserModel {
     public dynamoClient: DynamoDBClient;
@@ -29,7 +28,7 @@ export class UserModel {
             throw new Error("Email or username already registered");
         }
 
-        const encryptedPassword = await bcrypt.hash(userData.password, 10);
+        const encryptedPassword = userData.password;
 
         const userId = uuidv4();
         const putCommand = new PutItemCommand({
@@ -65,12 +64,7 @@ export class UserModel {
             throw new Error("Email not registered");
         }
 
-        if (
-            await bcrypt.compare(
-                userData.password,
-                existingUser.Items[0].password.S
-            )
-        ) {
+        if (userData.password == existingUser.Items[0].password.S) {
             return {
                 id: existingUser.Items[0].id.S,
                 email: existingUser.Items[0].email.S,
