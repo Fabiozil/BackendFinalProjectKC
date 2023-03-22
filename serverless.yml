@@ -14,6 +14,7 @@ custom:
                 "abbrev",
                 "npmlog",
                 "are-we-there-yet",
+                "inherits",
             ]
     apigwBinary:
         types:
