@@ -13,6 +13,7 @@ custom:
                 "nopt",
                 "abbrev",
                 "npmlog",
+                "are-we-there-yet",
             ]
     apigwBinary:
         types:
