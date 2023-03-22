@@ -12,6 +12,7 @@ custom:
                 "@mapbox/node-pre-gyp",
                 "nopt",
                 "abbrev",
+                "npmlog",
             ]
     apigwBinary:
         types:
