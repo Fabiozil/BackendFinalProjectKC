@@ -7,8 +7,8 @@ custom:
     optimize:
         external: ["swagger-ui-dist", "bcrypt"]
     apigwBinary:
-    types:
-        - "*/*"
+        types:
+            - "*/*"
 
 plugins:
     - serverless-plugin-typescript
