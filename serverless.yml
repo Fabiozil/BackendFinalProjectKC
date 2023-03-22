@@ -75,47 +75,39 @@ functions:
                   method: get
                   path: /user/ping
                   private: true
-                  cors:
-                      origin: "*"
+                  cors: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: post
                   path: /auth/login
                   private: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: post
                   path: /auth/register
                   private: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: get
                   path: /user/refresh-token
                   private: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: post
                   path: /post
                   private: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: get
                   path: /post
                   private: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: put
                   path: /post
                   private: true
             - http:
-                  cors:
-                      origin: "*"
+                  cors: true
                   method: delete
                   path: /post
                   private: true
