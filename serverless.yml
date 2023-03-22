@@ -122,7 +122,7 @@ resources:
                       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,<your-custom-header-goes-here>'"
                   ResponseType: DEFAULT_4XX
                   RestApiId:
-                      Ref: ${ssm:/ApiBackendKK/secrets/REST_API_RESOURCE_ID}
+                      Ref: ${ssm:/ApiBackendKK/secrets/REST_API_ID}
           GatewayResponseDefault5XX:
               Type: "AWS::ApiGateway::GatewayResponse"
               Properties:
@@ -131,4 +131,4 @@ resources:
                       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,<your-custom-header-goes-here>'"
                   ResponseType: DEFAULT_5XX
                   RestApiId:
-                      Ref: ${ssm:/ApiBackendKK/secrets/REST_API_RESOURCE_ID}
+                      Ref: ${ssm:/ApiBackendKK/secrets/REST_API_ID}
