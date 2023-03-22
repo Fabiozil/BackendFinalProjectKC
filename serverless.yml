@@ -72,42 +72,50 @@ functions:
         timeout: 29
         events:
             - http:
-                  cors: true
                   method: get
                   path: /user/ping
                   private: true
+                  cors:
+                      origin: "*"
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: post
                   path: /auth/login
                   private: true
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: post
                   path: /auth/register
                   private: true
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: get
                   path: /user/refresh-token
                   private: true
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: post
                   path: /post
                   private: true
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: get
                   path: /post
                   private: true
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: put
                   path: /post
                   private: true
             - http:
-                  cors: true
+                  cors:
+                      origin: "*"
                   method: delete
                   path: /post
                   private: true
