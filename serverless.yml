@@ -16,6 +16,7 @@ custom:
                 "are-we-there-yet",
                 "inherits",
                 "util-deprecate",
+                "delegates",
             ]
     apigwBinary:
         types:
