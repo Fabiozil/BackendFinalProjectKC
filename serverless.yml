@@ -111,7 +111,24 @@ functions:
                   method: delete
                   path: /post
                   private: true
-
 resources:
-    # DynamoDB
     - ${file(aws-resources/dynamodb.yml)}
+    - Resources:
+          GatewayResponseDefault4XX:
+              Type: "AWS::ApiGateway::GatewayResponse"
+              Properties:
+                  ResponseParameters:
+                      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+                      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,<your-custom-header-goes-here>'"
+                  ResponseType: DEFAULT_4XX
+                  RestApiId:
+                      Ref: "ApiGatewayRestApi"
+          GatewayResponseDefault5XX:
+              Type: "AWS::ApiGateway::GatewayResponse"
+              Properties:
+                  ResponseParameters:
+                      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+                      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,<your-custom-header-goes-here>'"
+                  ResponseType: DEFAULT_5XX
+                  RestApiId:
+                      Ref: "ApiGatewayRestApi"
