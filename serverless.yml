@@ -30,6 +30,8 @@ provider:
     #         - ${ssm:/secrets/SUBNET_ID}
     environment:
         TOKEN_KEY: ${ssm:/ApiBackendKK/secrets/TOKEN_KEY}
+        SECRET_KEY: ${ssm:/ApiBackendKK/secrets/SECRET_KEY}
+        ACCESS_KEY: ${ssm:/ApiBackendKK/secrets/ACCESS_KEY}
         # TEST_ENV: ${ssm:/TestVariable}
     tags:
         Name: api-backend

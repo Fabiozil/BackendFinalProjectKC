@@ -19,7 +19,13 @@ export class PostsModel {
 
     constructor() {
         this.dynamoClient = new DynamoDBClient({ region: "us-east-1" });
-        this.s3Client = new S3Client({ region: "us-east-1" });
+        this.s3Client = new S3Client({
+            region: "us-east-1",
+            credentials: {
+                secretAccessKey: process.env.SECRET_KEY,
+                accessKeyId: process.env.ACCESS_KEY,
+            },
+        });
     }
     async getPosts(userId: string) {
         let command: ScanCommand;
