@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 @Injectable()
 export class VerifyToken implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body);
         const token =
             req.body.token || req.query.token || req.headers["x-access-token"];
 
