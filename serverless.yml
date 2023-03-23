@@ -119,7 +119,7 @@ resources:
               Properties:
                   ResponseParameters:
                       gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-                      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,x-access-token'"
+                      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,x-access-token,X-Access-Token,X-access-token'"
                   ResponseType: DEFAULT_4XX
                   RestApiId: ${ssm:/ApiBackendKK/secrets/REST_API_ID}
           GatewayResponseDefault5XX:
@@ -127,6 +127,6 @@ resources:
               Properties:
                   ResponseParameters:
                       gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-                      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,x-access-token'"
+                      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,x-access-token,X-Access-Token,X-access-token'"
                   ResponseType: DEFAULT_5XX
                   RestApiId: ${ssm:/ApiBackendKK/secrets/REST_API_ID}
