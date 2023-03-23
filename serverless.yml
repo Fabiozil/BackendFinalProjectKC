@@ -65,6 +65,12 @@ provider:
                       - lambda:InvokeFunction
                       - lambda:InvokeAsync
                   Resource: "*"
+                - Effect: Allow
+                  Action:
+                      - "s3:GetObject"
+                      - "s3:PutObject"
+                  Resource:
+                      - ${ssm:/ApiBackendKK/secrets/POST_BUCKETS_ARN}
 
 functions:
     main:
